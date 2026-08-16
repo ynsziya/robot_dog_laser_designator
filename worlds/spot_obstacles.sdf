@@ -230,5 +230,82 @@
         </visual>
       </link>
     </model>
+
+    <!-- ===================== Boundary walls =====================
+         Fully closed 16 x 14 m arena (interior x in [-8, 8], y in [-7, 7]),
+         which encloses every obstacle above (they span x -4.25..6.15,
+         y -3.4..5.15) with at least 1.8 m of clearance, and keeps the robot
+         spawn at the origin well clear of the walls.
+         Wall centerlines sit on the interior bounds; the N/S walls run the
+         full width so the four corners overlap and leave no gaps for the
+         LiDAR to see through. Height 1.5 m keeps them inside the LiDAR's
+         +/-15 deg vertical field of view at close range. -->
+    <model name="boundary_wall_north">
+      <static>true</static>
+      <pose>0 7 0.75 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>16.2 0.2 1.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>16.2 0.2 1.5</size></box></geometry>
+          <material>
+            <ambient>0.55 0.55 0.58 1</ambient>
+            <diffuse>0.55 0.55 0.58 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="boundary_wall_south">
+      <static>true</static>
+      <pose>0 -7 0.75 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>16.2 0.2 1.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>16.2 0.2 1.5</size></box></geometry>
+          <material>
+            <ambient>0.55 0.55 0.58 1</ambient>
+            <diffuse>0.55 0.55 0.58 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="boundary_wall_east">
+      <static>true</static>
+      <pose>8 0 0.75 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.2 13.8 1.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.2 13.8 1.5</size></box></geometry>
+          <material>
+            <ambient>0.5 0.5 0.53 1</ambient>
+            <diffuse>0.5 0.5 0.53 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="boundary_wall_west">
+      <static>true</static>
+      <pose>-8 0 0.75 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.2 13.8 1.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.2 13.8 1.5</size></box></geometry>
+          <material>
+            <ambient>0.5 0.5 0.53 1</ambient>
+            <diffuse>0.5 0.5 0.53 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
   </world>
 </sdf>
