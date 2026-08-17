@@ -44,7 +44,7 @@ Visualization Manager:
       Value: true
     - Class: rviz_default_plugins/PointCloud2
       Enabled: true
-      Name: PointCloud2
+      Name: Lidar Points
       Topic:
         Value: /scan/points
         Depth: 5
@@ -56,27 +56,48 @@ Visualization Manager:
       Color Transformer: AxisColor
       Axis: Z
       Value: true
+    - Class: rviz_default_plugins/PointCloud2
+      Enabled: true
+      Name: RGBD Points
+      Topic:
+        Value: /camera/points
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+      Size (m): 0.01
+      Style: Flat Squares
+      Color Transformer: RGB8
+      Axis: Z
+      Value: true
     - Class: rviz_default_plugins/Image
       Enabled: true
       Name: Image
-      Topic: /camera
-      Queue Size: 10
-      Unreliable: false
+      Topic:
+        Value: /camera/image
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
       Max Value: 1
       Median window: 5
       Min Value: 0
       Normalize Range: true
       Value: true
-    - Class: rviz_default_plugins/Camera
-      Enabled: true
-      Name: Camera
-      Topic: /camera
-      Queue Size: 10
-      Unreliable: false
-      Image Rendering: background and overlay
-      Overlay Alpha: 0.5
-      Zoom Factor: 1
-      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: false
+      Name: Depth Image
+      Topic:
+        Value: /camera/depth_image
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+      Max Value: 10
+      Median window: 5
+      Min Value: 0
+      Normalize Range: false
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -109,5 +130,5 @@ Window Geometry:
   Width: 1400
   Image:
     collapsed: false
-  Camera:
+  Depth Image:
     collapsed: false
