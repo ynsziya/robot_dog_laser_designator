@@ -45,8 +45,7 @@ def generate_launch_description():
     default_gait_params = os.path.join(pkg_share, 'config', 'gait_params.yaml')
     ekf_yaml = os.path.join(pkg_share, 'config', 'ekf.yaml')
     slam_params = os.path.join(pkg_share, 'config', 'slam_toolbox.yaml')
-    octomap_yaml = os.path.join(pkg_share, 'config', 'octomap.yaml')
-    
+
     ros_gz_sim_share = get_package_share_directory('ros_gz_sim')
 
     with open(default_urdf, 'r', encoding='utf-8') as urdf_file:
@@ -202,16 +201,6 @@ def generate_launch_description():
         actions=[leg_odometry_node],
     )
 
-    octomap_node = Node(
-        package='octomap_server',
-        executable='octomap_server_node',
-        name='octomap_server',
-        output='screen',
-        parameters=[octomap_yaml, {'use_sim_time': use_sim_time}],
-        remappings=[('cloud_in', '/scan/points')],
-    )
-    delayed_octomap = TimerAction(period=7.0, actions=[octomap_node])
-
     return LaunchDescription([
         DeclareLaunchArgument(
             'use_sim_time', default_value='true',
@@ -280,7 +269,6 @@ def generate_launch_description():
         delayed_controller_spawners,
         delayed_gait_controller,
         delayed_leg_odometry,
-        delayed_octomap,
         Node(
             package='ros_gz_bridge',
             executable='parameter_bridge',
