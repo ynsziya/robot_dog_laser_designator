@@ -15,6 +15,7 @@ find_package(sensor_msgs REQUIRED)
 find_package(rcl_interfaces REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(ros_gz_interfaces REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 include_directories(include)
 
@@ -88,6 +89,17 @@ install(TARGETS leg_odometry_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
+# ---- FAST-LIO IMU QoS + TF bridge (identity until LIO odom) -------------
+add_executable(fast_lio_bridge_node
+  src/fast_lio_bridge_node.cpp
+)
+ament_target_dependencies(fast_lio_bridge_node
+  rclcpp geometry_msgs nav_msgs sensor_msgs tf2_ros
+)
+install(TARGETS fast_lio_bridge_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 install(DIRECTORY
   launch
   config
@@ -95,6 +107,7 @@ install(DIRECTORY
   worlds
   meshes
   rviz
+  maps
   DESTINATION share/${PROJECT_NAME}
 )
 

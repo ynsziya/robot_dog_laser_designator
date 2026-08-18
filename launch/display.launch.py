@@ -32,6 +32,17 @@ def generate_launch_description():
             parameters=[{'robot_description': robot_description}],
         ),
         Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            name='map_to_base_footprint',
+            arguments=[
+                '--x', '0', '--y', '0', '--z', '0',
+                '--qx', '0', '--qy', '0', '--qz', '0', '--qw', '1',
+                '--frame-id', 'map',
+                '--child-frame-id', 'base_footprint',
+            ],
+        ),
+        Node(
             package='joint_state_publisher_gui',
             executable='joint_state_publisher_gui',
             name='joint_state_publisher_gui',

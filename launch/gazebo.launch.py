@@ -10,7 +10,7 @@ from launch.actions import (
 )
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, TextSubstitution
+from launch.substitutions import EqualsSubstitution, LaunchConfiguration, TextSubstitution
 from launch_ros.actions import Node
 
 
@@ -125,6 +125,21 @@ def generate_launch_description():
             'use_sim_time': 'true',
             'slam_params_file': slam_params,
         }.items(),
+        condition=IfCondition(
+            EqualsSubstitution(LaunchConfiguration('mapping_backend'), 'slam_toolbox')
+        ),
+    )
+
+    fast_lio = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_share, 'launch', 'fast_lio.launch.py')
+        ),
+        launch_arguments={
+            'use_sim_time': use_sim_time,
+        }.items(),
+        condition=IfCondition(
+            EqualsSubstitution(LaunchConfiguration('mapping_backend'), 'fast_lio')
+        ),
     )
 
     joint_state_broadcaster_spawner = Node(
@@ -249,8 +264,11 @@ def generate_launch_description():
             ),
         ),
         DeclareLaunchArgument(
-            'spawn_slam', default_value='true',
-            description='Launch slam_toolbox online async mapping',
+            'mapping_backend', default_value='fast_lio',
+            description=(
+                'Mapping stack: fast_lio (3D LIO, default), slam_toolbox (2D), '
+                'or none.'
+            ),
         ),
         set_resource_path,
         gz_sim,
@@ -266,6 +284,7 @@ def generate_launch_description():
         ),
         spawn,
         slam,
+        fast_lio,
         delayed_controller_spawners,
         delayed_gait_controller,
         delayed_leg_odometry,
@@ -302,5 +321,8 @@ def generate_launch_description():
             name='ekf_filter_node',
             output='screen',
             parameters=[ekf_yaml, {'use_sim_time': use_sim_time}],
+            condition=IfCondition(
+                EqualsSubstitution(LaunchConfiguration('mapping_backend'), 'slam_toolbox')
+            ),
         ),
     ])

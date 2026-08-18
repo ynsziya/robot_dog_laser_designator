@@ -1,0 +1,13 @@
+# FAST_LIO_ROS2 requires --recursive (ikd-Tree). After import, run:
+#   git -C src/FAST_LIO_ROS2 submodule update --init --recursive
+# Official livox_ros_driver2 needs Livox-SDK2; this workspace uses
+# livox_ros_driver2_iface (CustomMsg only) and COLCON_IGNORE on the driver.
+repositories:
+  FAST_LIO_ROS2:
+    type: git
+    url: https://github.com/Ericsii/FAST_LIO_ROS2.git
+    version: ros2
+  livox_ros_driver2:
+    type: git
+    url: https://github.com/Livox-SDK/livox_ros_driver2.git
+    version: master
